@@ -141,26 +141,35 @@ function NewFactForm({ setFacts, setShowForm }) {
   const [category, setCategory] = useState("");
   const number = 200;
   const textLength = text.length;
+  const [isUploading, setIsUploading] = useState(false);
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     // 1. Prevent brower reload (ngăn chặn việc tải lại trình duyệt)
     e.preventDefault();
     // 2. (Kiểm tra xem dữ liệu có hợp lệ hay không, nêu hợp lệ thì tạo dữ liệu mới)
     if (text && isValidHttpUrl(source) && category && textLength <= number) {
       // 3. Tạo một đối tượng thực tế mới
-      const newFact = {
-        id: Math.round(Math.random() * 10000000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // const newFact = {
+      //   id: Math.round(Math.random() * 10000000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+
+      // 3. Upload fact to Supabase and receive the new fact object
+      setIsUploading(true);
+      const { data: newFact, error } = await supabase
+        .from("facts")
+        .insert([{ text, source, category }])
+        .select("*");
+      setIsUploading(false);
 
       // 4. Thêm thông tin mới tới giao diện người dùng
-      setFacts((facts) => [newFact, ...facts]);
+      setFacts((facts) => [newFact[0], ...facts]);
       // 5. Đặt lại các trường đầu vào thành trống
       setText("");
       setSource("");
@@ -178,6 +187,7 @@ function NewFactForm({ setFacts, setShowForm }) {
         placeholder="Share a fact with the world..."
         value={text}
         onChange={(e) => setText(e.target.value)}
+        disabled={isUploading}
       />
       <span>{number - textLength}</span>
       <input
@@ -185,9 +195,14 @@ function NewFactForm({ setFacts, setShowForm }) {
         onChange={(e) => setSource(e.target.value)}
         type="text"
         placeholder="Trustworthy spurce..."
+        disabled={isUploading}
       />
 
-      <select value={category} onChange={(e) => setCategory(e.target.value)}>
+      <select
+        disabled={isUploading}
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+      >
         <option value="">Choose category</option>
         {CATEGORIES.map((cat) => {
           return (
@@ -200,7 +215,9 @@ function NewFactForm({ setFacts, setShowForm }) {
         <option value="science">Science</option>
         <option value="finacy">Finacy</option> */}
       </select>
-      <button class="btn btn-large">Post</button>
+      <button class="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 }
