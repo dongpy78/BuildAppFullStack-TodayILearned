@@ -8,7 +8,7 @@ body {
   background-color: #292524;
   color: #fafaf9;
   font-family: "Sono", sans-serif;
-  padding: 48px 64px;
+  padding: 48px 64px 0;
 }
 
 .hidden {
@@ -21,6 +21,12 @@ body {
   font-size: 32px;
   font-weight: 600;
   margin-top: 24px;
+}
+
+.disputed {
+  color: #ef4444;
+  font-weight: 600;
+  margin-right: 10px;
 }
 
 /* MAIN LAYOUT */
@@ -40,12 +46,26 @@ body {
   display: grid;
   grid-template-columns: 250px 1fr;
   gap: 48px;
+
+  height: calc(100vh - 68px - 48px - 40px);
 }
 
 @media (max-width: 900px) {
   .main {
     grid-template-columns: 1fr;
   }
+}
+
+section {
+  padding-bottom: 40px;
+  /* DÙNG ĐỂ HIỂN THỊ ĐẸP HƠN TRÊN WINDOW */
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* for Internet Explorer */
+  scrollbar-width: none; /* disable scroll bars for Firefox */
+}
+
+section::-webkit-scrollbar {
+  display: none; /* disable scroll bars for Chrome, Safari, Edge and Opera */
 }
 
 /* ELEMENTS */
@@ -227,10 +247,6 @@ ul {
 }
 
 @media (max-width: 1000px) {
-  body {
-    padding: 32px 48px;
-  }
-
   .fact-form {
     flex-direction: column;
     align-items: stretch;
@@ -243,6 +259,12 @@ ul {
 }
 
 @media (max-width: 600px) {
+  body {
+    padding: 28px 24px 0;
+  }
+  .main {
+    height: 100%;
+  }
   .logo {
     display: flex;
     gap: 16px;
@@ -254,7 +276,7 @@ ul {
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 20px;
     text-transform: uppercase;
     text-align: left;
     font-family: "Coiny", sans-serif;
@@ -270,27 +292,35 @@ ul {
   }
 
   .btn-large {
-    font-size: 24px;
-    padding: 20px 32px 17px;
+    font-size: 16px;
+    /* padding: 20px 32px 17px; */
+    padding: 12px 20px 12px;
   }
 
-  .btn {
-    border: none;
-    font-family: "Coiny", sans-serif;
-    line-height: 1;
-    text-transform: uppercase;
-    font-size: 10px;
-    padding: 16px 10px 13px;
-    background-image: linear-gradient(
-      135deg,
-      #3b82f6,
-      #ef4444,
-      #16a34a,
-      #eab308
-    );
-    color: inherit;
-    transition: 0.3s;
-    border-radius: 100px;
-    cursor: pointer;
+  .fact-form {
+    padding: 12px 24px;
+  }
+
+  .fact-form input {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .fact-form select {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  section {
+    height: 600px;
+    padding-bottom: 20px;
+    /* DÙNG ĐỂ HIỂN THỊ ĐẸP HƠN TRÊN WINDOW */
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* for Internet Explorer */
+    scrollbar-width: none; /* disable scroll bars for Firefox */
+  }
+
+  section::-webkit-scrollbar {
+    display: none; /* disable scroll bars for Chrome, Safari, Edge and Opera */
   }
 }

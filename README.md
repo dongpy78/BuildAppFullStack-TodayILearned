@@ -72,3 +72,7 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 ### LỆNH DÙNG ĐỂ INSTALL SUPABSE
 
 npm install --save @supabase/supabase-js
+
+### LINK DEMO
+
+Link demo here: [https://todayilearnedappdemo.netlify.app/](https://todayilearnedappdemo.netlify.app/)

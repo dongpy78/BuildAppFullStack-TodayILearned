@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import supabase from "./supabase";
 import "./style.css";
+import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const CATEGORIES = [
   { name: "technology", color: "#3b82f6" },
@@ -121,7 +122,7 @@ function Header({ showForm, setShowForm }) {
       {/* Đóng mở Form */}
       <button
         onClick={() => setShowForm((show) => !show)}
-        className="btn btn-large btn-open"
+        className="btn btn-large btn-open btn-mobile"
       >
         {showForm ? "Close" : "Share a fact"}
       </button>
@@ -141,7 +142,7 @@ function isValidHttpUrl(string) {
 
 function NewFactForm({ setFacts, setShowForm }) {
   const [text, setText] = useState("");
-  const [source, setSource] = useState("http://example.com");
+  const [source, setSource] = useState("");
   const [category, setCategory] = useState("");
   const number = 200;
   const textLength = text.length;
@@ -285,6 +286,8 @@ function FastList({ facts, setFacts }) {
 
 function Fact({ fact, setFacts }) {
   const [isUpdating, setIsUpDating] = useState(false);
+  const isDisputed =
+    fact.votesInteresting + fact.voteMindblowing < fact.votesFalse;
   async function handleVote(columnName) {
     setIsUpDating(true);
     const { data: updatedFact, error } = await supabase
@@ -304,6 +307,7 @@ function Fact({ fact, setFacts }) {
   return (
     <li key={fact.id} className="fact">
       <p>
+        {isDisputed ? <span className="disputed">[⛔ DISPUTED]</span> : null}
         {fact.text}
         <a className="source" href={fact.source} target="_blank">
           (Source)
